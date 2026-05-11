@@ -157,12 +157,46 @@ body {
   box-shadow: 0 0 30px rgba(255,90,74,0.1);
 }
 
-/* ===== 3D CAROUSEL GALLERY ===== */
+/* ===== 3D CAROUSEL GALLERY (REDESIGNED) ===== */
 .gallery-section {
-  position: relative; z-index: 2;
-  width: 100%; height: 100vh; height: 100dvh;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
   background: #000;
+  overflow: hidden;
 }
+
+/* Dot grid texture */
+.gallery-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ambient glow behind carousel */
+.gallery-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85vw; height: 75vh;
+  background: radial-gradient(ellipse at center, rgba(255,90,74,0.08) 0%, rgba(255,90,74,0.02) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  animation: ambientPulse 7s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+  0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.12); }
+}
+
 .gallery-scroll {
   scrollbar-width: none;
   position: absolute;
@@ -189,24 +223,76 @@ body {
   color: #dedede;
   font: clamp(.625em, 3vmin, 1.5em)/ 1.25 'Inter', sans-serif;
   pointer-events: none;
+  z-index: 2;
 }
 @media (max-aspect-ratio: 2/3) { .gallery-viewport { --dir: 1 } }
 
+/* ── Gallery Header ── */
 .gallery-header {
-  place-content: center;
-  place-items: center;
-  padding: .5em;
+  padding: 1.2em 1.5em 0.4em;
   text-align: center;
-  text-wrap: balance;
   pointer-events: auto;
   z-index: 5;
 }
-.gallery-header em {
-  max-width: 32em;
-  font-style: normal;
-  color: var(--text-secondary);
+
+.gallery-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 0.55em;
 }
 
+.gallery-counter {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+}
+
+.gallery-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.5rem, 4.2vmin, 2.7rem);
+  font-weight: 700;
+  line-height: 1.0;
+  margin-bottom: 0.45em;
+  letter-spacing: -0.01em;
+}
+
+.gallery-title-line { display: block; }
+.gallery-title-line.accent {
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gallery-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 160px;
+  margin: 0 auto;
+}
+.gallery-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,90,74,0.45));
+}
+.gallery-divider-line:last-child {
+  background: linear-gradient(270deg, transparent, rgba(255,90,74,0.45));
+}
+.gallery-divider-dot {
+  font-size: 0.55rem;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+/* ── Carousel Stage ── */
 .carousel-stage {
   overflow: hidden;
   perspective: 50em;
@@ -217,19 +303,22 @@ body {
 
 .carousel {
   --r: calc(2 + var(--dir)) / 3;
-  --w: clamp(4em, min(50vh, 25vw), 18em);
-  --z: calc(var(--f, 1.25) * -.5 * var(--w) / tan(.5turn / var(--n)));
+  --w: clamp(5em, min(58vh, 30vw), 22em);
+  --z: calc(var(--f, 1.1) * -.5 * var(--w) / tan(.5turn / var(--n)));
   place-self: center;
   translate: 0 0 var(--z);
   rotate: var(--dir) calc(1 - var(--dir)) 0 calc((var(--k) + .5) * -1turn);
   position: relative;
 }
 
+/* All grid children of .carousel-item overlap at 1/1 */
 .carousel-item,
 .item-back,
 .item-front,
 .carousel-item img,
-.item-caption { grid-area: 1 / 1; }
+.item-caption,
+.item-gradient-overlay,
+.item-number { grid-area: 1 / 1; }
 
 .carousel-item {
   --j: var(--i) / var(--n);
@@ -266,28 +355,31 @@ body {
   }
 }
 
+/* ── Card Faces ── */
 .item-back,
 .item-front {
   --ang: calc(-45deg + var(--hov) * 180deg);
   overflow: hidden;
   position: relative;
-  border: solid 4px #0000;
-  border-radius: .5em;
+  border: solid 3px #0000;
+  border-radius: .9em;
   backface-visibility: hidden;
-  box-shadow: 5px 5px 13px #000;
+  box-shadow:
+    8px 14px 35px rgba(0,0,0,0.95),
+    0 0 0 1px rgba(255,255,255,0.04);
   background:
     var(--url) 50% / cover padding-box,
-    linear-gradient(#666 0 0) padding-box,
+    linear-gradient(#555 0 0) padding-box,
     repeating-conic-gradient(from var(--ang),
       #0000 0% 15%,
-      color-mix(in srgb, #ff5a4a calc(var(--sel) * 100%), #333) 20% 30%,
+      color-mix(in srgb, #ff5a4a calc(var(--sel) * 100%), #232323) 20% 30%,
       #0000 35% 50%
-    ) border-box #121212;
+    ) border-box #0d0d0d;
   background-blend-mode: multiply, normal, normal;
   isolation: isolate;
   pointer-events: none;
   transition: .35s ease-out;
-  transition-property: rotate, --ang;
+  transition-property: rotate, --ang, box-shadow;
 }
 
 .item-back::after,
@@ -303,28 +395,70 @@ body {
 
 .item-back h3,
 .item-back p,
-.item-caption {
+.item-caption,
+.item-number {
   opacity: round(up, var(--sel));
-  text-shadow: 1px 1px 1px #0006;
   pointer-events: auto;
 }
 
-.item-back h3 { font-size: 1.125em; font-family: 'Space Grotesk', sans-serif; }
+/* Front face — full image with overlay layers */
+.item-front {
+  rotate: y calc(var(--hov) * .5turn);
+  display: grid;
+}
 
-.item-front { rotate: y calc(var(--hov) * .5turn); }
-
+/* Back face — info card */
 .item-back {
   rotate: y calc((1 + var(--hov)) * .5turn);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1em;
+  padding: 1.3em 1.2em;
   text-align: center;
+  gap: 0.25em;
 }
 
-.item-back p { color: var(--text-secondary); font-size: 0.9em; margin-top: 0.5em; }
+.item-back-glyph {
+  font-size: 2em;
+  line-height: 1;
+  margin-bottom: 0.15em;
+  background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
+.item-back h3 {
+  font-size: 1.1em;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  color: #fff;
+}
+
+.item-back p {
+  color: var(--text-secondary);
+  font-size: 0.82em;
+  margin-top: 0.15em;
+  text-shadow: none;
+}
+
+.item-back-cta {
+  margin-top: 0.9em;
+  padding: 0.38em 1.1em;
+  border: 1px solid rgba(255,90,74,0.55);
+  border-radius: 100px;
+  font-size: 0.68em;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Image fills the card */
 .carousel-item img {
   pointer-events: auto;
   width: 100%;
@@ -334,29 +468,119 @@ body {
   object-position: center;
 }
 
+/* Dark gradient bottom overlay */
+.item-gradient-overlay {
+  align-self: stretch;
+  justify-self: stretch;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.05) 0%,
+    rgba(0,0,0,0.0) 35%,
+    rgba(0,0,0,0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Numbered badge — top right */
+.item-number {
+  align-self: start;
+  justify-self: end;
+  pointer-events: auto;
+  padding: .28em .58em;
+  margin: .55em;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: .35em;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.62em;
+  font-weight: 700;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 1.5px;
+  z-index: 2;
+  text-shadow: none;
+}
+
+/* Caption — bottom left */
 .item-caption {
   pointer-events: auto;
   align-self: end;
-  padding: .5em;
-  background: #fff3;
-  color: #040404;
+  justify-self: stretch;
+  padding: .65em .75em;
   font: Max(.75rem, .75em) 'Inter', sans-serif;
-  text-align: right;
-  backdrop-filter: blur(5px) brightness(1.5);
+  text-align: left;
+  z-index: 2;
+  text-shadow: none;
 }
 
-.item-caption a { color: #370617; text-decoration: none; }
+.item-caption-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+  color: #fff;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+  display: block;
+  margin-bottom: 0.12em;
+}
 
+.item-caption-desc {
+  font-size: 0.76em;
+  color: rgba(255,255,255,0.52);
+  text-shadow: 0 1px 6px rgba(0,0,0,1);
+  display: block;
+}
+
+/* ── Gallery Footer ── */
 .gallery-footer {
   place-self: center;
-  padding: .5em;
+  padding: .8em;
   pointer-events: auto;
 }
-.gallery-footer p {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  letter-spacing: 2px;
+
+.scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.scroll-wheel {
+  width: 17px;
+  height: 27px;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 9px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.scroll-wheel::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: scrollWheel 1.7s ease-in-out infinite;
+}
+
+@keyframes scrollWheel {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  75%  { opacity: 0; transform: translateX(-50%) translateY(9px); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(9px); }
+}
+
+.gallery-footer span {
+  font-size: 0.58rem;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 /* ===== MUSIC ===== */
@@ -578,9 +802,10 @@ body {
   .nav-links a { font-size: 0.75rem; letter-spacing: 1px; }
   .music-grid { grid-template-columns: 1fr; }
   .music-left { position: relative; top: 0; }
-  .carousel-item { --w: clamp(3em, min(40vh, 20vw), 12em); }
   .modal-nav { display: none; }
   .modal-content { max-width: 95vw; max-height: 70vh; }
+  .gallery-meta-row { flex-direction: column; gap: 0.4em; }
+  .gallery-counter { align-self: flex-end; }
 }
 
 ::-webkit-scrollbar { width: 6px; }
