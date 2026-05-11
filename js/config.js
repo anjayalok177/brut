@@ -4,11 +4,11 @@
 
 /** Foto Gallery — ganti src dengan path foto kamu */
 const galleryImages = [
-  { src: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop', title: 'Portfolio UI', desc: 'System ready interface design' },
-  { src: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=600&fit=crop', title: 'Developer Profile', desc: 'Ryan web developer showcase' },
-  { src: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop', title: 'Ocean Life', desc: 'Jellyfish in deep water' },
-  { src: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&h=600&fit=crop', title: 'Sound Waves', desc: 'Audio visualization' },
-  { src: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=600&fit=crop', title: 'Festival Lights', desc: 'Summer vibes' }
+  { src: 'foto1.jpg', title: 'Portfolio UI', desc: 'System ready interface design' },
+  { src: 'foto3.jpg', title: 'Developer Profile', desc: 'Ryan web developer showcase' },
+  { src: 'foto4.jpg', title: 'Ocean Life', desc: 'Jellyfish in deep water' },
+  { src: 'foto5.jpg', title: 'Sound Waves', desc: 'Audio visualization' },
+  { src: 'foto6.jpg', title: 'Festival Lights', desc: 'Summer vibes' }
 ];
 
 /** Lagu Spotify — ganti uri dengan Spotify URI */
