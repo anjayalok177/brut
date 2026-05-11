@@ -62,20 +62,40 @@
     <div class="gallery-track"></div>
   </div>
   <div class="gallery-viewport">
+
+    <!-- Header: section tag on left, live counter on right -->
     <div class="gallery-header">
-      <div class="section-tag">
-        <span class="badge-dot"></span>
-        Photo Collection
+      <div class="gallery-meta-row">
+        <div class="section-tag">
+          <span class="badge-dot"></span>
+          Photo Collection
+        </div>
+        <div class="gallery-counter" id="galleryCounter">01 / 05</div>
       </div>
-      <h2 class="gallery-title">OUR FOTO FOTO GANTENG</h2>
-      <em>Atas Bawah Cantik</em>
+      <h2 class="gallery-title">
+        <span class="gallery-title-line">FOTO FOTO</span>
+        <span class="gallery-title-line accent">GANTENG</span>
+      </h2>
+      <div class="gallery-divider">
+        <span class="gallery-divider-line"></span>
+        <span class="gallery-divider-dot">✦</span>
+        <span class="gallery-divider-line"></span>
+      </div>
     </div>
+
+    <!-- 3D carousel stage -->
     <div class="carousel-stage">
       <div class="carousel" id="carousel"></div>
     </div>
+
+    <!-- Footer: animated scroll hint -->
     <div class="gallery-footer">
-      <p>Scroll to navigate</p>
+      <div class="scroll-hint">
+        <div class="scroll-wheel"></div>
+        <span>Scroll to explore</span>
+      </div>
     </div>
+
   </div>
 </section>
 
