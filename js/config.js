@@ -13,10 +13,10 @@ const galleryImages = [
 
 /** Lagu Spotify — ganti uri dengan Spotify URI */
 const spotifyTracks = [
-  { uri: 'spotify:track:4cOdK2wGLETKBW3PvgPWqT', name: 'Stay', artist: 'The Kid LAROI & Justin Bieber', duration: '2:21' },
-  { uri: 'spotify:track:6I9VzXrHxO9rA9A5euc8Ak', name: 'Heat Waves', artist: 'Glass Animals', duration: '3:58' },
-  { uri: 'spotify:track:7qiZfU4dY9lQabv8lsDsK7', name: 'Blinding Lights', artist: 'The Weeknd', duration: '3:20' },
-  { uri: 'spotify:track:5PjdY0CKGZdEuoNab3yDmX', name: 'As It Was', artist: 'Harry Styles', duration: '2:47' },
-  { uri: 'spotify:track:2takcwOaAZWiXQijPHIx7B', name: 'Shape of You', artist: 'Ed Sheeran', duration: '3:53' },
-  { uri: 'spotify:track:1xQ6trBtednmQgTcngyy8l', name: 'Starboy', artist: 'The Weeknd ft. Daft Punk', duration: '3:50' }
+  { uri: 'spotify:track:4lXsvpjLhG7YqEehJFqpKV', name: 'tiki tiki', artist: 'gilangR', duration: '2:01' },
+  { uri: 'spotify:track:13CwOTXUgBugeBByE9oIWb', name: 'kota ini tak sama tanpamu', artist: 'laguk sape ni', duration: '4:40' },
+  { uri: 'spotify:track:0aVd7QiY8BstysHb62c5Fi', name: 'seasons', artist: 'laguk sape ni', duration: '4:16' },
+  { uri: 'spotify:track:42VsgItocQwOQC3XWZ8JNA', name: 'FE!N', artist: 'Bibrannn', duration: '3:11' },
+  { uri: 'spotify:track:4qRYdvt8ldAQAPUJwkt7La', name: 'Berubah', artist: 'laguk sape ni', duration: '2:01' },
+  { uri: 'spotify:track:5y2ijHECwFYWqcAHKTZgzD', name: 'risk it all', artist: 'rasja', duration: '3:24' }
 ];
