@@ -4,11 +4,11 @@
 
 /** Foto Gallery — ganti src dengan path foto kamu */
 const galleryImages = [
-  { src: 'foto1.jpg', title: 'said rasa', desc: 'mantap' },
+  { src: 'foto1.jpg', title: 'said rasa', desc: 'sapesape' },
   { src: 'foto3.jpg', title: 'gilangR', desc: 'aduh' },
-  { src: 'foto4.jpg', title: 'cahlil atil', desc: 'cihuy' },
-  { src: 'foto5.jpg', title: 'sikmadin', desc: 'asek' },
-  { src: 'foto6.jpg', title: 'loll', desc: 'duh' }
+  { src: 'foto4.jpg', title: 'cahlil atil', desc: 'eumph' },
+  { src: 'foto5.jpg', title: 'rajandra', desc: 'asek' },
+  { src: 'foto6.jpg', title: 'ziah', desc: 'gg gemink' }
 ];
 
 /** Lagu Spotify — ganti uri dengan Spotify URI */
